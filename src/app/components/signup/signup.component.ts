@@ -26,10 +26,10 @@ export class SignupComponent {
     if (this.signupForm.valid) {
       this.authService.signup(this.signupForm.value).subscribe({
         next: (res) => {
-          const token = res.data?.signup?.token;
-          if (token) {
-            localStorage.setItem('token', token);
-            this.router.navigate(['/employees']);
+          const user = res.data?.signup;
+          if (user) {
+            // ✅ Signup success — redirect to login instead of expecting token
+            this.router.navigate(['/login']);
           } else {
             this.error = 'Signup failed.';
           }
@@ -40,4 +40,5 @@ export class SignupComponent {
       });
     }
   }
+  
 }

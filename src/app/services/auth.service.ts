@@ -12,16 +12,9 @@ export class AuthService {
     const query = {
       query: `
         mutation {
-          login(email: "${credentials.email}", password: "${credentials.password}") {
-            token
-            user {
-              id
-              email
-              name
-            }
-          }
+          login(email: "${credentials.email}", password: "${credentials.password}")
         }
-      `,
+      `
     };
 
     return this.http.post(this.apiUrl, query);
@@ -31,37 +24,30 @@ export class AuthService {
     const query = {
       query: `
         mutation {
-          signup(name: "${data.name}", email: "${data.email}", password: "${data.password}") {
-            token
-            user {
-              id
-              email
-              name
-            }
+          signup(username: "${data.name}", email: "${data.email}", password: "${data.password}") {
+            id
+            username
+            email
           }
         }
-      `,
+      `
     };
 
     return this.http.post(this.apiUrl, query);
   }
 
-  // ✅ Store token (you might already do this in login component)
   storeToken(token: string): void {
     localStorage.setItem('token', token);
   }
 
-  // ✅ Get token for auth headers (if needed later)
   getToken(): string | null {
     return localStorage.getItem('token');
   }
 
-  // ✅ Check login state
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
 
-  // ✅ Clear session
   logout(): void {
     localStorage.removeItem('token');
   }
