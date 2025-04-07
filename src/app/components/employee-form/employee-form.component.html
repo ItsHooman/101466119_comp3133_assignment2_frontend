@@ -1,0 +1,32 @@
+<h2>{{ isEditMode ? 'Edit Employee' : 'Add Employee' }}</h2>
+
+<form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+
+  <input type="text" placeholder="Name" formControlName="name" />
+  <div *ngIf="employeeForm.get('name')?.invalid && employeeForm.get('name')?.touched">Name is required</div>
+
+  <input type="email" placeholder="Email" formControlName="email" />
+  <div *ngIf="employeeForm.get('email')?.invalid && employeeForm.get('email')?.touched">Valid email is required</div>
+
+  <input type="text" placeholder="Position" formControlName="position" />
+  <div *ngIf="employeeForm.get('position')?.invalid && employeeForm.get('position')?.touched">Position is required</div>
+
+  <input type="text" placeholder="Department" formControlName="department" />
+  <div *ngIf="employeeForm.get('department')?.invalid && employeeForm.get('department')?.touched">Department is required</div>
+
+  <!-- File Input -->
+  <label>
+    Profile Picture:
+    <input type="file" (change)="onFileChange($event)" />
+  </label>
+
+  <!-- Preview Image -->
+  <div *ngIf="previewImage" style="margin-top: 10px;">
+    <p><strong>Preview:</strong></p>
+    <img [src]="previewImage" alt="Profile" style="max-width: 200px; border-radius: 8px;" />
+  </div>
+
+  <button type="submit" [disabled]="employeeForm.invalid">
+    {{ isEditMode ? 'Update' : 'Add' }}
+  </button>
+</form>

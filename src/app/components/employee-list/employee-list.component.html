@@ -1,0 +1,59 @@
+<h2>Employee List</h2>
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <h2>Employee List</h2>
+    <button (click)="logout()">Logout</button>
+  </div>
+<!-- Filters -->
+<div *ngIf="!loading" style="margin-bottom: 1rem;">
+  <label>
+    Department:
+    <select [(ngModel)]="selectedDepartment" (change)="filterEmployees()">
+      <option value="">All</option>
+      <option *ngFor="let dept of departments" [value]="dept">{{ dept }}</option>
+    </select>
+  </label>
+
+  <label style="margin-left: 1rem;">
+    Position:
+    <select [(ngModel)]="selectedPosition" (change)="filterEmployees()">
+      <option value="">All</option>
+      <option *ngFor="let pos of positions" [value]="pos">{{ pos }}</option>
+    </select>
+  </label>
+
+  <button (click)="resetFilters()" style="margin-left: 1rem;">Reset</button>
+</div>
+
+<!-- Loading/Error -->
+<div *ngIf="loading">Loading employees...</div>
+<div *ngIf="error" style="color: red;">Error loading employees.</div>
+
+<!-- Employee Table -->
+<table *ngIf="!loading && employees.length > 0" border="1" cellpadding="6" cellspacing="0">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Position</th>
+      <th>Department</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let emp of employees">
+      <td>{{ emp.name }}</td>
+      <td>{{ emp.email }}</td>
+      <td>{{ emp.position }}</td>
+      <td>{{ emp.department }}</td>
+      <td>
+        <a [routerLink]="['/employees', emp.id]">View</a> |
+        <a [routerLink]="['/employees', emp.id, 'edit']">Edit</a> |
+        <button (click)="deleteEmployee(emp.id)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- No Results -->
+<p *ngIf="!loading && employees.length === 0">No employees found.</p>
+<button (click)="logout()">Logout</button>
